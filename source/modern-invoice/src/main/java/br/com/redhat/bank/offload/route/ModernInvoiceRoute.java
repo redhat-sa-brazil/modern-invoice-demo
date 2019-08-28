@@ -3,6 +3,8 @@ package br.com.redhat.bank.offload.route;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.infinispan.InfinispanConstants;
 import org.apache.camel.component.infinispan.InfinispanOperation;
+import org.apache.camel.component.jackson.JacksonDataFormat;
+import org.apache.camel.model.dataformat.JsonLibrary;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -19,8 +21,6 @@ public class ModernInvoiceRoute extends RouteBuilder{
 
     @Override
     public void configure() throws Exception {
-
-        getContext().setStreamCaching(true);
 
         restConfiguration()
                 .contextPath("/fuse").apiContextPath("/api-doc")
@@ -55,19 +55,21 @@ public class ModernInvoiceRoute extends RouteBuilder{
             .log("Starting getInvoiceById with id: ${exchangeProperty[id]}")
             .setHeader(InfinispanConstants.OPERATION).constant(InfinispanOperation.GET)
             .setHeader(InfinispanConstants.KEY).exchangeProperty("id")
-            .to("infinispan://default?cacheContainer=#remoteCacheContainer")
             .convertBodyTo(String.class)
-            //.log("body: ${body}") 
-            // .choice()
-            //     .when(body().isNull())
-            //         .log("Not found on Cache with id: ${exchangeProperty[id]}") 
-            //         //.bean(InvoiceService.class, "getInvoice(${exchangeProperty[id]})")
-            //         .setHeader(InfinispanConstants.OPERATION).constant(InfinispanOperation.PUT)
-            //         .setHeader(InfinispanConstants.KEY).exchangeProperty("id")
-            //         .setHeader(InfinispanConstants.VALUE).constant("${body}")
-            //         .to("infinispan://default?cacheContainer=#remoteCacheContainer")
-            // .end()
+            .to("infinispan://default?cacheContainer=#remoteCacheContainer")
+            .log("body: ${body}") 
+            .choice()
+                .when(body().isNull())
+                    .log("Not found on Cache with id: ${exchangeProperty[id]}") 
+                    .bean(InvoiceService.class, "getInvoice(${exchangeProperty[id]})")
+                    .log("Result after invoking InvoiceService.getInvoice(${exchangeProperty[id]}): ${body}")
+                    .setHeader(InfinispanConstants.OPERATION).constant(InfinispanOperation.PUT)
+                    .setHeader(InfinispanConstants.KEY).exchangeProperty("id")
+                    .setHeader(InfinispanConstants.VALUE).simple("${body}")
+                    .to("infinispan://default?cacheContainer=#remoteCacheContainer")
+            .end()
             .log("Return from InvoiceService.getInvoice: ${body}");
+            
             
         from("direct:getInvoiceByCustomerName")
             .log("Starting getInvoiceByCustomerName with customerName: ${header.customerName}")
