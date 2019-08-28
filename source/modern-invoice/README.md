@@ -1,54 +1,32 @@
-# Spring Boot, Camel and Infinispan QuickStart
+# Modern Invoice Demo
 
-This quickstart demonstrates how to connect a Spring-Boot application to a JBoss Data Grid (or Infinispan) server using the Hot Rod protocol.
-It requires that the data grid server (or cluster) has been deployed first.
+This demo demonstrates how to integrate [Red Hat Data Grid](https://www.redhat.com/en/technologies/jboss-middleware/data-grid) and [Red Hat Fuse](https://www.redhat.com/en/technologies/jboss-middleware/fuse) through a simple Credit Card Invoice offload use case.
 
-In the example, a Camel route is using the Infinispan server as idempotent repository, filtering out messages that have already been processed.
-Messages having a bounded random ID are created through a configurable generator.
-Another Camel route shows how to lookup cache entries in the Infinispan server.
+The [Additional References](#additional-references) section will provide complementary assets for further reading and complementary details about related subjects.
 
-Both routes use the `default` cache of the data grid, although this can be changed in the `application.properties` file.
-The default name for the target data grid cluster is `DATAGRID_APP_HOTROD`. It can be changed from the spring-boot configuration file or
-using the environment variable `DATAGRID_SERVICE_NAME`.
+## Description
 
-### Building
+## Environment
 
-The example can be built with
+- [Red Hat Openshift Container Platform 3.11](https://docs.openshift.com/container-platform/3.11/welcome/index.html)
+- [Red Hat Fuse 7.3](https://access.redhat.com/documentation/en-us/red_hat_fuse/7.3/html-single/fuse_on_openshift_guide/index)
+- [Red Hat Data Grid 7.3](https://access.redhat.com/documentation/en-us/red_hat_data_grid/7.3/html-single/red_hat_data_grid_for_openshift/index)
+- [Openshift Client 3.11.16](https://github.com/openshift/origin/releases/tag/v3.11.0)
 
-    mvn clean install
+## Deployment on Openshift
 
-### Running the example in OpenShift
+0. [Pre-Requisities](#deploy-step-0)
+1. [Install Red Hat Fuse 7.3 on Openshift](#deploy-step-1)
+2. [Install Red Hat Data Grid 7.3 on Openshift](#deploy-step-2)
+3. [Deploy Red Hat Data Grid and Red Hat Fusde  Openshift](#deploy-step-3)
+4. [Deploy MySQL on Openshift](#deploy-step-4)
+5. [Deploy Modern Invoice Demo on Openshift](#deploy-step-5)
 
-It is assumed that:
-- OpenShift platform is already running, if not you can find details how to [Install OpenShift at your site](https://docs.openshift.com/container-platform/3.3/install_config/index.html).
-- Your system is configured for Fabric8 Maven Workflow, if not you can find a [Get Started Guide](https://access.redhat.com/documentation/en/red-hat-jboss-middleware-for-openshift/3/single/red-hat-jboss-fuse-integration-services-20-for-openshift/)
-- The Red Hat JDG xPaaS product should already be installed and running on your OpenShift installation, one simple way to run a JDG service is following the documentation of the JDG xPaaS image for OpenShift related to the `datagrid65-basic` template
+### Pre-Requisities <a name="deploy-step-0"/>
+### Install Red Hat Fuse 7.3 on Openshift <a name="deploy-step-1"/>
+### Install Red Hat Data Grid 7.3 on Openshift <a name="deploy-step-2"/>
+### Deploy Red Hat Data Grid and Red Hat Fusde  Openshift <a name="deploy-step-3"/>
+### Deploy MySQL on Openshift <a name="deploy-step-4"/>
+### Deploy Modern Invoice Demo on Openshift"/>
 
-The example can be built and run on OpenShift using a single goal:
-
-    mvn fabric8:deploy
-
-To list all the running pods:
-
-    oc get pods
-
-Then find the name of the pod that runs this quickstart, and output the logs from the running pods with:
-
-    oc logs <name of pod>
-
-You can also use the OpenShift [web console](https://docs.openshift.com/container-platform/3.3/getting_started/developers_console.html#developers-console-video) to manage the
-running pods, and view logs and much more.
-
-### Running via an S2I Application Template
-
-Application templates allow you deploy applications to OpenShift by filling out a form in the OpenShift console that allows you to adjust deployment parameters.  This template uses an S2I source build so that it handle building and deploying the application for you.
-
-First, import the Fuse image streams:
-
-    oc create -f https://raw.githubusercontent.com/jboss-fuse/application-templates/GA/fis-image-streams.json
-
-Then create the quickstart template:
-
-    oc create -f https://raw.githubusercontent.com/jboss-fuse/application-templates/GA/quickstarts/spring-boot-camel-infinispan-template.json
-
-Now when you use "Add to Project" button in the OpenShift console, you should see a template for this quickstart. 
+## Additional References <a name="additional-references">

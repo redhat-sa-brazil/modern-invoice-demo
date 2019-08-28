@@ -74,7 +74,6 @@ public class ModernInvoiceRoute extends RouteBuilder{
             .end()
             .log("Return from InvoiceService.getInvoice: ${body}");
             
-            
         from("direct:getInvoiceByCustomerName")
             .log("Starting getInvoiceByCustomerName with customerName: ${header.customerName}")
             .bean(InvoiceService.class, "findInvoiceByCustomerName(${header.customerName})")
