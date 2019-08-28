@@ -30,10 +30,10 @@ The [Additional References](#additional-references) section will provide complem
 
 * Moving forward, we need to setup **Red Hat Container Registry** integration, which can be done in several ways which are covered in depth on the following references:
 
-  ** [Red Hat Container Registry Authentication](https://access.redhat.com/RegistryAuthentication)
-  ** [Setup Registry Authentication](https://access.redhat.com/documentation/en-us/red_hat_data_grid/7.3/html-single/red_hat_data_grid_for_openshift/index#os_registry_authentication)
-  ** [Configure Authentication to the Red Hat Container Registry](https://access.redhat.com/documentation/en-us/red_hat_fuse/7.3/html-single/fuse_on_openshift_guide/index#configure-container-registry)
-  ** [Minishift Red Hat Registry Login Add-on](https://docs.okd.io/latest/minishift/using/addons.html#default-addons)
+  * [Red Hat Container Registry Authentication](https://access.redhat.com/RegistryAuthentication)
+  * [Setup Registry Authentication](https://access.redhat.com/documentation/en-us/red_hat_data_grid/7.3/html-single/red_hat_data_grid_for_openshift/index#os_registry_authentication)
+  * [Configure Authentication to the Red Hat Container Registry](https://access.redhat.com/documentation/en-us/red_hat_fuse/7.3/html-single/fuse_on_openshift_guide/index#configure-container-registry)
+  * [Minishift Red Hat Registry Login Add-on](https://docs.okd.io/latest/minishift/using/addons.html#default-addons)
 
 * After configuring your **Openshift Cluster** you're going to login as **cluster:admin**. Example:
 
@@ -45,20 +45,20 @@ The [Additional References](#additional-references) section will provide complem
 
 * Installing **Red Hat Fuse** on **Openshift** is very easy. You just need to access to *Openshift* namespace and import Fuse *image streams, quickstarts and templates* just as follows:
 
-  ** Login as **system:admim:**
+  * Login as **system:admim:**
 
   ```
   oc login -u system:admin
   ```
 
-  ** Import *Fuse Image Streams:*
+  * Import *Fuse Image Streams:*
 
   ```
   BASEURL=https://raw.githubusercontent.com/jboss-fuse/application-templates/application-templates-2.1.fuse-730065-redhat-00002
   oc create -n openshift -f ${BASEURL}/fis-image-streams.json
   ```
 
-  ** Install quickstart examples and templates for quick reference:
+  * Install quickstart examples and templates for quick reference:
 
   ```
   for template in eap-camel-amq-template.json \
@@ -87,7 +87,7 @@ The [Additional References](#additional-references) section will provide complem
   done
   ```
 
-  ** Finally install **Hawtio Console:**
+  * Finally install **Hawtio Console:**
 
   ```
   oc create -n openshift -f https://raw.githubusercontent.com/jboss-fuse/application-templates/application-templates-2.1.fuse-730065-redhat-00002/fis-console-cluster-template.json
