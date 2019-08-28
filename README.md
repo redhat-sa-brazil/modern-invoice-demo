@@ -32,9 +32,9 @@ The [Additional References](#additional-references) section will provide complem
 
 * After configuring your **Openshift Cluster** you're going to login as **cluster:admin**. Example:
 
-```
-oc login -u system:admin
-```
+  ```
+  oc login -u system:admin
+  ```
 
 ### Install Red Hat Fuse 7.3 on Openshift <a name="deploy-step-1"/>
 ### Install Red Hat Data Grid 7.3 on Openshift <a name="deploy-step-2"/>
