@@ -67,6 +67,10 @@ public class ModernInvoiceRoute extends RouteBuilder{
                     .setHeader(InfinispanConstants.KEY).exchangeProperty("id")
                     .setHeader(InfinispanConstants.VALUE).simple("${body}")
                     .to("infinispan://default?cacheContainer=#remoteCacheContainer")
+                    .setHeader(InfinispanConstants.OPERATION).constant(InfinispanOperation.GET)
+                    .setHeader(InfinispanConstants.KEY).exchangeProperty("id")
+                    .convertBodyTo(String.class)
+                    .to("infinispan://default?cacheContainer=#remoteCacheContainer")         
             .end()
             .log("Return from InvoiceService.getInvoice: ${body}");
             
