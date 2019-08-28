@@ -56,7 +56,7 @@ The [Additional References](#additional-references) section will provide complem
 
   ```
   BASEURL=https://raw.githubusercontent.com/jboss-fuse/application-templates/application-templates-2.1.fuse-730065-redhat-00002
-  oc create -n openshift -f ${BASEURL}/fis-image-streams.json
+  oc replace -n openshift -f ${BASEURL}/fis-image-streams.json
   ```
 
   * Install quickstart examples and templates for quick reference:
@@ -83,7 +83,7 @@ The [Additional References](#additional-references) section will provide complem
     spring-boot-cxf-jaxrs-template.json \
     spring-boot-cxf-jaxws-template.json ;
     do
-  oc create -n openshift -f \
+  oc replace -n openshift -f \
   https://raw.githubusercontent.com/jboss-fuse/application-templates/application-templates-2.1.fuse-730065-redhat-00002/quickstarts/${template}
   done
   ```
@@ -103,7 +103,7 @@ The [Additional References](#additional-references) section will provide complem
   oc get templates -n openshift | grep 'cache-service\|datagrid-service'
   ```
 
-* If you can't find *cache-service and datagrid-service* templates, you can easily deploy them by running:
+* If you can't find *cache-service and datagrid-service* templates, you can easily deploy them by executing:
 
   ```
   for resource in cache-service-template.yaml \
@@ -150,11 +150,27 @@ The [Additional References](#additional-references) section will provide complem
   ```
   > oc new-app cache-service \
   -p APPLICATION_USER=cache \
-  -p APPLICATION_PASSWORD=cache
+  -p APPLICATION_PASSWORD=cache \
+  -p APPLICATION_NAME=cache-service
   ```
   * *TIP 1:* you can choose different APPLICATION_USER and APPLICATION_PASSWORD
   * *TIP 2:* take note of these attributes
 
 ### Deploy Modern Invoice Demo <a name="deploy-step-6"/>
+
+* Before deploying Modern Invoice Demo, we need to compile it. Thus, navigate to the *source/modern-invoice* directory and execute the following:
+
+  ```
+  mvn clean compile
+
+  mvn fabric8:deploy \
+  -Dmysql-service-username=admin \
+  -Dmysql-service-password=admin \
+  -Djdg-application-name=cache-service \
+  -Djdg-application-user=cache \
+  -Djdg-application-password=cache
+  ```
+  * *TIP 1:* you can choose different APPLICATION_USER and APPLICATION_PASSWORD
+  * *TIP 2:* take note of these attributes
 
 ## Additional References <a name="additional-references">

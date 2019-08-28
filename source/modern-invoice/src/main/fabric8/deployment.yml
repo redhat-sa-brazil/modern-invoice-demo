@@ -22,3 +22,9 @@ spec:
             value: ${mysql-service-username}
           - name: MYSQL_SERVICE_PASSWORD
             value: ${mysql-service-password}
+          - name: APPLICATION_NAME
+            value: ${jdg-application-name}
+          - name: APPLICATION_USER
+            value: ${jdg-application-user}
+          - name: APPLICATION_PASSWORD
+            value: ${jdg-application-password}

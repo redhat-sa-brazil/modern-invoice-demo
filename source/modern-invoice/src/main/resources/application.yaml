@@ -47,6 +47,11 @@ spring:
       ddl-auto: update
     show-sql: false
 
+jdg:
+  application-name: cache-service
+  application-user: cache
+  application-password: cache
+
 # The application configuration properties
 example:
   generateOrderPeriod: 10s

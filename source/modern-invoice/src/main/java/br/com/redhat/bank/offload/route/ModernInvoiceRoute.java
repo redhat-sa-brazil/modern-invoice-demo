@@ -57,10 +57,11 @@ public class ModernInvoiceRoute extends RouteBuilder{
             .setHeader(InfinispanConstants.KEY).exchangeProperty("id")
             .convertBodyTo(String.class)
             .to("infinispan://default?cacheContainer=#remoteCacheContainer")
-            .log("body: ${body}") 
+            .log("Data grid output: ${body}") 
             .choice()
                 .when(body().isNull())
                     .log("Not found on Cache with id: ${exchangeProperty[id]}") 
+                    .log("Going to invoke InvoiceService.getInvoice(${exchangeProperty[id]})") 
                     .bean(InvoiceService.class, "getInvoice(${exchangeProperty[id]})")
                     .log("Result after invoking InvoiceService.getInvoice(${exchangeProperty[id]}): ${body}")
                     .setHeader(InfinispanConstants.OPERATION).constant(InfinispanOperation.PUT)
@@ -71,8 +72,7 @@ public class ModernInvoiceRoute extends RouteBuilder{
                     .setHeader(InfinispanConstants.KEY).exchangeProperty("id")
                     .convertBodyTo(String.class)
                     .to("infinispan://default?cacheContainer=#remoteCacheContainer")         
-            .end()
-            .log("Return from InvoiceService.getInvoice: ${body}");
+            .end();
             
         from("direct:getInvoiceByCustomerName")
             .log("Starting getInvoiceByCustomerName with customerName: ${header.customerName}")

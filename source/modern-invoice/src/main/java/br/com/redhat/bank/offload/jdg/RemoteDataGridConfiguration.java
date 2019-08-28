@@ -29,23 +29,22 @@ public class RemoteDataGridConfiguration {
 	private static final char[] TRUSTSTORE_PASSWORD = "secret".toCharArray();
 	private static final String TRUSTSTORE_PATH = "truststore.pkcs12";
 
-    String svcName = "cache-service";
-	String user = "vinicius";
-	String password = "vinicius";
-	String saslName = "cache-service";
+    private static final String SERVICE_NAME = System.getenv().getOrDefault("APPLICATION_NAME", "cache-service");
+	private static final String USER_NAME = System.getenv().getOrDefault("APPLICATION_USER", "cache");
+	private static final String USER_PASSWORD = System.getenv().getOrDefault("APPLICATION_PASSWORD", "cache");
 	
 	@Bean(initMethod = "start", destroyMethod = "stop")
 	public BasicCacheContainer remoteCacheContainer(Environment environment) {
 		createTruststoreFromCrtFile(CRT_PATH, TRUSTSTORE_PATH, TRUSTSTORE_PASSWORD);
 	    ConfigurationBuilder builder = new ConfigurationBuilder();
 	    	builder.addServer()
-	        	.host(svcName)
+	        	.host(SERVICE_NAME)
 	            .port(11222)
 	            .security().authentication().enable()
-	         		.username(user)
-		            .password(password)
+	         		.username(USER_NAME)
+		            .password(USER_PASSWORD)
 		            .realm("ApplicationRealm")
-		            .serverName(saslName)
+		            .serverName(SERVICE_NAME)
 		            .saslMechanism("DIGEST-MD5")
 		            .saslQop(SaslQop.AUTH)
 	            .ssl().enable()
