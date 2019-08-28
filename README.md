@@ -320,7 +320,6 @@ The [Additional References](#additional-references) section will provide complem
   -Djdg-application-user=cache \
   -Djdg-application-password=cache
   ```
-  * *TIP 1:* you can choose different APPLICATION_USER and APPLICATION_PASSWORD
-  * *TIP 2:* take note of these attributes
+  * *TIP :* all attributes should match both *MYSql* and **Data Grid** params previously used;
 
 ## Additional References <a name="additional-references">

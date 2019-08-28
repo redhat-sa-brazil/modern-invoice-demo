@@ -40,17 +40,17 @@ public class ModernInvoiceRoute extends RouteBuilder{
             .get("/{id}").outType(Invoice.class).to("direct:getInvoiceById")
             .get("/{customerName}/customer").outType(Invoice[].class).to("direct:getInvoiceByCustomerName");
 
-        from("direct:newInvoice")
+        from("direct:newInvoice").routeId("newInvoice").routeDescription("Responsible for inserting customer invoice")
             .log("Starting newInvoice with body: ${body}")
             .to("jpa:br.com.redhat.bank.offload.model.Invoice")
             .log("Inserted new order: ${body}");
 
-         from("direct:getInvoice")
+         from("direct:getInvoice").routeId("getInvoiceById").routeDescription("Responsible for fetching all customers invoices")
             .log("Starting direct:getInvoice")
             .bean(InvoiceService.class, "findInvoice")
             .log("Return from InvoiceService.getInvoice: ${body}");
 
-        from("direct:getInvoiceById")
+        from("direct:getInvoiceById").routeId("getInvoiceById").routeDescription("Responsible for fetching customer invoice by his ID")
             .setProperty("id", simple("${header.id}"))
             .log("Starting getInvoiceById with id: ${exchangeProperty[id]}")
             .setHeader(InfinispanConstants.OPERATION).constant(InfinispanOperation.GET)
