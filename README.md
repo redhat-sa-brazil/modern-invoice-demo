@@ -23,6 +23,8 @@ The [Additional References](#additional-references) section will provide complem
 5. [Deploy Red Hat Data Grid](#deploy-step-5)
 6. [Deploy Modern Invoice Demo](#deploy-step-6)
 
+## Demo Walktrough
+
 ### Pre-Requisities <a name="deploy-step-0"/>
 
 * Deploying **Red Hat Fuse** based can be very easy when using [Apache Maven]() capabilities. Furthermore to build and compile our demo, we're going to need **Red Hat** repositories propertly configured. That said, you can refer the following *settings.xml*:

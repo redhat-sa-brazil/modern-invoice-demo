@@ -1,5 +1,6 @@
 package br.com.redhat.bank.offload.route;
 
+import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.infinispan.InfinispanConstants;
 import org.apache.camel.component.infinispan.InfinispanOperation;
@@ -45,7 +46,7 @@ public class ModernInvoiceRoute extends RouteBuilder{
             .to("jpa:br.com.redhat.bank.offload.model.Invoice")
             .log("Inserted new order: ${body}");
 
-         from("direct:getInvoice").routeId("getInvoiceById").routeDescription("Responsible for fetching all customers invoices")
+         from("direct:getInvoice").routeId("getInvoice").routeDescription("Responsible for fetching all customers invoices")
             .log("Starting direct:getInvoice")
             .bean(InvoiceService.class, "findInvoice")
             .log("Return from InvoiceService.getInvoice: ${body}");
@@ -61,33 +62,31 @@ public class ModernInvoiceRoute extends RouteBuilder{
             .choice()
                 .when(body().isNull())
                     .log("Not found on Cache with id: ${exchangeProperty[id]}") 
-                    .log("Going to invoke InvoiceService.getInvoice(${exchangeProperty[id]})") 
+                    .log("Going to invoke backend: InvoiceService.getInvoice(${exchangeProperty[id]})") 
                     .bean(InvoiceService.class, "getInvoice(${exchangeProperty[id]})")
-                    .log("Result after invoking InvoiceService.getInvoice(${exchangeProperty[id]}): ${body}")
-                    .setHeader(InfinispanConstants.OPERATION).constant(InfinispanOperation.PUT)
-                    .setHeader(InfinispanConstants.KEY).exchangeProperty("id")
-                    .setHeader(InfinispanConstants.VALUE).simple("${body}")
-                    .to("infinispan://default?cacheContainer=#remoteCacheContainer")
-                    .setHeader(InfinispanConstants.OPERATION).constant(InfinispanOperation.GET)
-                    .setHeader(InfinispanConstants.KEY).exchangeProperty("id")
-                    .convertBodyTo(String.class)
-                    .to("infinispan://default?cacheContainer=#remoteCacheContainer")         
+                    .log("Result after invoking backend InvoiceService.getInvoice(${exchangeProperty[id]}): ${body}")
+                    .choice()
+                        .when(body().isNotNull())
+                            .setHeader(InfinispanConstants.OPERATION).constant(InfinispanOperation.PUT)
+                            .setHeader(InfinispanConstants.KEY).exchangeProperty("id")
+                            .setHeader(InfinispanConstants.VALUE).simple("${body}")
+                            .to("infinispan://default?cacheContainer=#remoteCacheContainer")
+                            .setHeader(InfinispanConstants.OPERATION).constant(InfinispanOperation.GET)
+                            .setHeader(InfinispanConstants.KEY).exchangeProperty("id")
+                            .to("infinispan://default?cacheContainer=#remoteCacheContainer")
+                        .otherwise()
+                            .log("Result after invoking backend InvoiceService.getInvoice(${exchangeProperty[id]}): ${body}")
+                            .log("Customer with ID: ${exchangeProperty[id]} Not Found")
+                            .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(404))
+                            .setBody(constant("Customer with ID: ${exchangeProperty[id]} : NOT FOUND"))
+                    .end()
             .end();
             
         from("direct:getInvoiceByCustomerName")
             .log("Starting getInvoiceByCustomerName with customerName: ${header.customerName}")
             .bean(InvoiceService.class, "findInvoiceByCustomerName(${header.customerName})")
             .log("Return from InvoiceService.findInvoiceByCustomerName: ${body}");
-   
-        // from("timer://foo?period=10000&repeatCount=1")
-        //     .setHeader(InfinispanConstants.OPERATION)
-        //     .constant(InfinispanOperation.PUT).setHeader(InfinispanConstants.KEY).constant("1")
-        //     .setHeader(InfinispanConstants.VALUE).constant("test").to("infinispan://default?cacheContainer=#remoteCacheContainer")
-        //     .setBody().simple("Ramalho lindo")
-        //     .log("Body: ${body}")
-        //     .setHeader(InfinispanConstants.OPERATION).constant(InfinispanOperation.GET)
-        //     .setHeader(InfinispanConstants.KEY).constant("1").to("infinispan://default?cacheContainer=#remoteCacheContainer")
-        //     .log("Received body: ${body}");
+
     }
 
 }
