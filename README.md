@@ -18,9 +18,9 @@ The [Additional References](#additional-references) section will provide complem
 0. [Pre-Requisities](#deploy-step-0)
 1. [Install Red Hat Fuse 7.3 on Openshift](#deploy-step-1)
 2. [Install Red Hat Data Grid 7.3 on Openshift](#deploy-step-2)
-3. [Deploy Red Hat Data Grid and Red Hat Fusde  Openshift](#deploy-step-3)
-4. [Deploy MySQL on Openshift](#deploy-step-4)
-5. [Deploy Modern Invoice Demo on Openshift](#deploy-step-5)
+3. [Create Modern Invoice Project](#deploy-step-3)
+4. [Deploy MySQL](#deploy-step-4)
+5. [Deploy Modern Invoice Demo](#deploy-step-5)
 
 ### Pre-Requisities <a name="deploy-step-0"/>
 
@@ -105,12 +105,24 @@ The [Additional References](#additional-references) section will provide complem
 * If you can't find *cache-service and datagrid-service* templates, you can easily deploy them by running:
 
   ```
-  oc get templates -n openshift | grep 'cache-service\|datagrid-service'
+  for resource in cache-service-template.yaml \
+  datagrid-service-template.yaml
+  do
+    oc create -n openshift -f \
+      https://raw.githubusercontent.com/jboss-container-images/jboss-datagrid-7-openshift-image/7.3-v1.2/services/${resource}
+  done
   ```
 
+### Create Modern Invoice Project <a name="deploy-step-3"/>
 
-### Deploy Red Hat Data Grid and Red Hat Fuse on Openshift <a name="deploy-step-3"/>
-### Deploy MySQL on Openshift <a name="deploy-step-4"/>
-### Deploy Modern Invoice Demo on Openshift <a name="deploy-step-5"/>
+* In order to keep or environment organized, we're going to create a separated *project/namespace* to deploy our services and demo. To achieve this, you just need to run:
+
+  ```
+  oc create project invoice
+  ```
+  * *TIP:* you can choose a different project name if you wish.
+
+### Deploy MySQL <a name="deploy-step-4"/>
+### Deploy Modern Invoice Demo <a name="deploy-step-5"/>
 
 ## Additional References <a name="additional-references">
