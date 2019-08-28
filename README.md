@@ -20,7 +20,8 @@ The [Additional References](#additional-references) section will provide complem
 2. [Install Red Hat Data Grid 7.3 on Openshift](#deploy-step-2)
 3. [Create Modern Invoice Project](#deploy-step-3)
 4. [Deploy MySQL](#deploy-step-4)
-5. [Deploy Modern Invoice Demo](#deploy-step-5)
+5. [Deploy Red Hat Data Grid](#deploy-step-5)
+6. [Deploy Modern Invoice Demo](#deploy-step-6)
 
 ### Pre-Requisities <a name="deploy-step-0"/>
 
@@ -132,6 +133,28 @@ The [Additional References](#additional-references) section will provide complem
   * *TIP 1:* you can choose different username and password
   * *TIP 2:* take note of these attributes
 
-### Deploy Modern Invoice Demo <a name="deploy-step-5"/>
+* Wait a few seconds for *MySQL* deployment and execute *oc get pods* to make sure everything went just fine:
+
+  ```
+  > oc get pods
+  NAME            READY     STATUS    RESTARTS   AGE
+  mysql-1-th7kp   1/1       Running   0          1m
+  ```
+  * *TIP 1 :* the pod name *mysql-1-th7kp* is going to be different from your;
+  * *TIP 2 :* make sure your pod has a **Running** status with a **1/1** count;
+
+### Deploy Red Hat Data Grid <a name="deploy-step-5"/>
+
+* As I previously stated, deploying Red Hat Data Grid is quite straightforward using via *Openshift Templates*. Just execute the following and a RDG instance will be provisioned afterwards:
+
+  ```
+  > oc new-app cache-service \
+  -p APPLICATION_USER=cache \
+  -p APPLICATION_PASSWORD=cache
+  ```
+  * *TIP 1:* you can choose different APPLICATION_USER and APPLICATION_PASSWORD
+  * *TIP 2:* take note of these attributes
+
+### Deploy Modern Invoice Demo <a name="deploy-step-6"/>
 
 ## Additional References <a name="additional-references">
