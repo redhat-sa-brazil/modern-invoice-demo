@@ -74,11 +74,11 @@ public class ModernInvoiceRoute extends RouteBuilder{
                             .setHeader(InfinispanConstants.OPERATION).constant(InfinispanOperation.GET)
                             .setHeader(InfinispanConstants.KEY).exchangeProperty("id")
                             .to("infinispan://default?cacheContainer=#remoteCacheContainer")
+                            .log("Result after invoking Data Grid with ID ${exchangeProperty[id]}: ${body}")
                         .otherwise()
-                            .log("Result after invoking backend InvoiceService.getInvoice(${exchangeProperty[id]}): ${body}")
-                            .log("Customer with ID: ${exchangeProperty[id]} Not Found")
+                            .log("Customer with ID ${exchangeProperty[id]} Not Found")
                             .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(404))
-                            .setBody(constant("Customer with ID: ${exchangeProperty[id]} : NOT FOUND"))
+                            .setBody(simple("Customer with ID ${exchangeProperty[id]} Not Found"))
                     .end()
             .end();
             

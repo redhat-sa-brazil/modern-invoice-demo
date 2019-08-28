@@ -23,7 +23,7 @@ The [Additional References](#additional-references) section will provide complem
 5. [Deploy Red Hat Data Grid](#deploy-step-5)
 6. [Deploy Modern Invoice Demo](#deploy-step-6)
 
-## Demo Walktrough
+## Demo Guide
 
 ### Pre-Requisities <a name="deploy-step-0"/>
 
