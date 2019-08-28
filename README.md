@@ -26,7 +26,7 @@ The [Additional References](#additional-references) section will provide complem
 
 * In order to successfully deploy this demo, you're going to need a functional **Openshift 3.11** cluster. This can be obtained using your on-premise infrastructure, traditional Cloud Providers such as [AWS](https://aws.amazon.com/quickstart/architecture/openshift/), [Azure](https://azure.microsoft.com/en-us/services/openshift/), [Google Cloud](https://cloud.google.com/solutions/partners/openshift-on-gcp) and [IBM Cloud](https://cloud.ibm.com/kubernetes/catalog/openshiftcluster), or via [CDK/Minishift](https://developers.redhat.com/products/cdk/overview)
 
-* Setup **Openshift Client 3.11** as describe here: (Installing the CLI)[https://docs.openshift.com/container-platform/3.11/cli_reference/get_started_cli.html#installing-the-cli]
+* Setup **Openshift Client 3.11** as describe here: [Installing the CLI](https://docs.openshift.com/container-platform/3.11/cli_reference/get_started_cli.html#installing-the-cli)
 
 * Moving forward, we need to setup **Red Hat Container Registry** integration, which can be done in several ways which are covered in depth on this reference: [Red Hat Container Registry Authentication](https://access.redhat.com/RegistryAuthentication)
 
