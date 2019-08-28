@@ -115,14 +115,23 @@ The [Additional References](#additional-references) section will provide complem
 
 ### Create Modern Invoice Project <a name="deploy-step-3"/>
 
-* In order to keep or environment organized, we're going to create a separated *project/namespace* to deploy our services and demo. To achieve this, you just need to run:
+* In order to keep our environment organized, we're going to create a separated *project/namespace* to deploy our services and demo. To achieve this, you just need to run:
 
   ```
-  oc create project invoice
+  oc new-project invoice
   ```
   * *TIP:* you can choose a different project name if you wish.
 
 ### Deploy MySQL <a name="deploy-step-4"/>
+
+* **Openshift** ships several [Databases](https://docs.openshift.com/container-platform/3.11/using_images/db_images/index.html) such as *MongoDB, PostgreSQL* and others. I've chose *MySQL* for this demo, therefore, we need to deploy it as follows:
+
+  ```
+  oc new-app --template=mysql-ephemeral --param=MYSQL_USER=admin --param=MYSQL_PASSWORD=admin
+  ```
+  * *TIP 1:* you can choose different username and password
+  * *TIP 2:* take note of these attributes
+
 ### Deploy Modern Invoice Demo <a name="deploy-step-5"/>
 
 ## Additional References <a name="additional-references">
