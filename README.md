@@ -1,8 +1,8 @@
 # Modern Invoice Demo
 
-This demo demonstrates how to integrate [Red Hat Data Grid](https://www.redhat.com/en/technologies/jboss-middleware/data-grid) and [Red Hat Fuse](https://www.redhat.com/en/technologies/jboss-middleware/fuse) through a simple Credit Card Invoice offload use case.
+This demo demonstrates how to integrate [Red Hat Data Grid](https://www.redhat.com/en/technologies/jboss-middleware/data-grid) and [Red Hat Fuse](https://www.redhat.com/en/technologies/jboss-middleware/fuse) through a simple Credit Card Invoice Offload use case.
 
-The [Additional References](#additional-references) section will provide complementary assets for further reading and complementary details about related subjects.
+The [Additional References](#additional-references) section will provide complementary assets for further reading and further details about related topics.
 
 ## Description
 
@@ -27,7 +27,7 @@ The [Additional References](#additional-references) section will provide complem
 
 ### Pre-Requisities <a name="deploy-step-0"/>
 
-* Deploying **Red Hat Fuse** based can be very easy when using [Apache Maven]() capabilities. Furthermore to build and compile our demo, we're going to need **Red Hat** repositories propertly configured. That said, you can refer the following *settings.xml*:
+* Deploying **Red Hat Fuse** based apps can be very easy when using [Apache Maven]() capabilities. To build and compile our demo, we're going to need **Red Hat** repositories propertly configured. That said, you can refer the following *settings.xml* as an example:
 
   ```
   <?xml version="1.0" encoding="UTF-8" standalone="no"?>
