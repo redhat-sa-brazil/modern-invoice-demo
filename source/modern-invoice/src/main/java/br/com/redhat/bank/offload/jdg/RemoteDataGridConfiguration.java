@@ -14,13 +14,20 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
+import org.infinispan.client.hotrod.RemoteCache;
 import org.infinispan.client.hotrod.RemoteCacheManager;
 import org.infinispan.client.hotrod.configuration.ConfigurationBuilder;
 import org.infinispan.client.hotrod.configuration.SaslQop;
+import org.infinispan.client.hotrod.marshall.ProtoStreamMarshaller;
 import org.infinispan.commons.api.BasicCacheContainer;
+import org.infinispan.protostream.SerializationContext;
+import org.infinispan.protostream.annotations.ProtoSchemaBuilder;
+import org.infinispan.protostream.annotations.ProtoSchemaBuilderException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+
+import br.com.redhat.bank.offload.model.Invoice;
 
 @Configuration
 public class RemoteDataGridConfiguration {
@@ -34,12 +41,13 @@ public class RemoteDataGridConfiguration {
 	private static final String USER_PASSWORD = System.getenv().getOrDefault("APPLICATION_PASSWORD", "cache");
 	
 	@Bean(initMethod = "start", destroyMethod = "stop")
-	public BasicCacheContainer remoteCacheContainer(Environment environment) {
+	public BasicCacheContainer remoteCacheContainer(Environment environment) throws ProtoSchemaBuilderException, IOException {
 		createTruststoreFromCrtFile(CRT_PATH, TRUSTSTORE_PATH, TRUSTSTORE_PASSWORD);
 	    ConfigurationBuilder builder = new ConfigurationBuilder();
 	    	builder.addServer()
 	        	.host(SERVICE_NAME)
-	            .port(11222)
+				.port(11222)
+				.marshaller(new ProtoStreamMarshaller())
 	            .security().authentication().enable()
 	         		.username(USER_NAME)
 		            .password(USER_PASSWORD)
@@ -50,8 +58,28 @@ public class RemoteDataGridConfiguration {
 	            .ssl().enable()
 		            .trustStoreFileName(TRUSTSTORE_PATH)
 		            .trustStorePassword(TRUSTSTORE_PASSWORD)
-		            .build();
-	    	return new RemoteCacheManager(builder.create(), false);
+					.build();
+		RemoteCacheManager remoteCacheManager = new RemoteCacheManager(builder.create(), true);
+		SerializationContext ctx = ProtoStreamMarshaller.getSerializationContext(remoteCacheManager);
+		RemoteCache<String, String> metadataCache = remoteCacheManager.getCache(org.infinispan.query.remote.client.ProtobufMetadataManagerConstants.PROTOBUF_METADATA_CACHE_NAME);
+		ProtoSchemaBuilder protoSchemaBuilder = new ProtoSchemaBuilder();
+		try {
+			final String fileName = "invoice.proto";
+			String protoFile = protoSchemaBuilder
+				.fileName(fileName)
+				.addClass(Invoice.class)
+				.packageName("invoice")
+				.build(ctx);
+			metadataCache.put(fileName, protoFile);
+			String filesWithErrors = metadataCache.get(org.infinispan.query.remote.client.ProtobufMetadataManagerConstants.ERRORS_KEY_SUFFIX);
+			if (filesWithErrors != null)
+				throw new AssertionError("Error in proto file(s): " + filesWithErrors);
+			else
+				System.out.println("Added schema file: " + fileName);
+		} catch (IOException e) {
+			throw new AssertionError(e);
+		}
+		return remoteCacheManager;
 	}
 	
 	private static void createTruststoreFromCrtFile(String crtPath, String tsPath, char[] password) {

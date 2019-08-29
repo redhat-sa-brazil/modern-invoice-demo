@@ -4,9 +4,10 @@ import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.infinispan.InfinispanConstants;
 import org.apache.camel.component.infinispan.InfinispanOperation;
-import org.apache.camel.component.jackson.JacksonDataFormat;
-import org.apache.camel.model.dataformat.JsonLibrary;
+import org.apache.camel.component.infinispan.InfinispanQueryBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
+import org.infinispan.query.dsl.Query;
+import org.infinispan.query.dsl.QueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -39,6 +40,7 @@ public class ModernInvoiceRoute extends RouteBuilder{
             .post().type(Invoice.class).to("direct:newInvoice")
             .get("/").outType(Invoice[].class).to("direct:getInvoice")
             .get("/{id}").outType(Invoice.class).to("direct:getInvoiceById")
+            .get("/hystrix/{id}").outType(Invoice.class).to("direct:getHystrixInvoiceById")
             .get("/{customerName}/customer").outType(Invoice[].class).to("direct:getInvoiceByCustomerName");
 
         from("direct:newInvoice").routeId("newInvoice").routeDescription("Responsible for inserting customer invoice")
@@ -81,12 +83,36 @@ public class ModernInvoiceRoute extends RouteBuilder{
                             .setBody(simple("Customer with ID ${exchangeProperty[id]} Not Found"))
                     .end()
             .end();
-            
-        from("direct:getInvoiceByCustomerName")
-            .log("Starting getInvoiceByCustomerName with customerName: ${header.customerName}")
-            .bean(InvoiceService.class, "findInvoiceByCustomerName(${header.customerName})")
-            .log("Return from InvoiceService.findInvoiceByCustomerName: ${body}");
 
+        from("direct:getHystrixInvoiceById").routeId("getHystrixInvoiceById").routeDescription("Responsible for fetching customer invoice by his ID using Hystrix")
+            .setProperty("id", simple("${header.id}"))
+            .log("Starting getHystrixInvoiceById with id: ${exchangeProperty[id]}")
+            .setHeader(InfinispanConstants.OPERATION).constant(InfinispanOperation.GET)
+            .setHeader(InfinispanConstants.KEY).exchangeProperty("id")
+            .convertBodyTo(String.class)
+            .hystrix()
+                .to("infinispan://default?cacheContainer=#remoteCacheContainer")
+                .log("Data grid output: ${body}") 
+            .onFallback()
+                .log("Fallback Triggered: getHystrixInvoiceById with id: ${exchangeProperty[id]}")
+                .bean(InvoiceService.class, "getInvoice(${exchangeProperty[id]})")
+                .log("Result after invoking backend InvoiceService.getInvoice(${exchangeProperty[id]}): ${body}")
+            .end();
+            
+        from("direct:getInvoiceByCustomerName").routeId("getInvoiceByCustomerName").routeDescription("Responsible for fetching customer invoice by his name")
+            .setProperty("customerName", simple("${header.customerName}")) 
+            .log("Starting getInvoiceByCustomerName with customerName: ${exchangeProperty[customerName]}")         
+            .setHeader(InfinispanConstants.OPERATION, constant(InfinispanOperation.QUERY))
+            .setHeader(InfinispanConstants.QUERY_BUILDER, constant(new InfinispanQueryBuilder(){
+                @Override
+                public Query build(QueryFactory queryFactory) {
+                    return queryFactory.from(Invoice.class).having("name").like("%test%").build();
+                }}))
+            .to("infinispan://default?cacheContainer=#remoteCacheContainer")       
+            //.bean(InvoiceService.class, "findInvoiceByCustomerName(${exchangeProperty[customerName]})")
+            .log("Result after invoking Data Grid with customerName ${exchangeProperty[customerName]}: ${body}");
     }
 
+
+    
 }
