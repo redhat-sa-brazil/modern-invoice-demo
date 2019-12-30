@@ -2,7 +2,7 @@
 
 This demo demonstrates how to integrate [Red Hat Data Grid](https://www.redhat.com/en/technologies/jboss-middleware/data-grid) and [Red Hat Fuse](https://www.redhat.com/en/technologies/jboss-middleware/fuse) through a simple Credit Card Invoice Offload use case.
 
-The [Additional References](#additional-references) section will provide complementary assets for further reading and further details about related topics.
+The [Additional References](#additional-references) section will provide complementary assets for further reading alonsgide additional details about related topics.
 
 ## Description
 
