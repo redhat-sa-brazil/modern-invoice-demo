@@ -322,6 +322,6 @@ The [Additional References](#additional-references) section will provide complem
   -Djdg-application-user=cache \
   -Djdg-application-password=cache
   ```
-  * *TIP :* all attributes should match both *MYSql* and **Data Grid** params previously used;
+  * *TIP :* all attributes should match both *MySQL* and **Red Hat Data Grid** params previously informed;
 
 ## Additional References <a name="additional-references">
