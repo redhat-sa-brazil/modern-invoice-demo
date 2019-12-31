@@ -30,7 +30,7 @@ The [Additional References](#additional-references) section will provide complem
 2. [Get all Invoices on Red Hat Data Grid](#execute-step-2)
 3. [Get an Invoice by Id](#execute-step-3)
 4. [Get an Invoice by Id using Hystrix](#execute-step-4)
-5. [Get an Invoice by Customer's name](#execute-step-5)
+5. [Get an Invoice by Customer's Name](#execute-step-5)
 
 ### Pre-Requisities <a name="deploy-step-0"/>
 
@@ -278,7 +278,7 @@ The [Additional References](#additional-references) section will provide complem
 
 ### Deploy MySQL <a name="deploy-step-4"/>
 
-* **Openshift** ships several [Databases](https://docs.openshift.com/container-platform/3.11/using_images/db_images/index.html) such as *MongoDB, PostgreSQL* and others. I've chose *MySQL* for this demo, therefore, we need to deploy it as follows:
+* **Openshift** ships several [Databases](https://docs.openshift.com/container-platform/3.11/using_images/db_images/index.html) such as *MongoDB, PostgreSQL* and others. I chose *MySQL* for this demo, therefore, we need to deploy it as follows:
 
   ```
   oc new-app --template=mysql-ephemeral --param=MYSQL_USER=admin --param=MYSQL_PASSWORD=admin
@@ -347,7 +347,16 @@ The [Additional References](#additional-references) section will provide complem
   * *TIP :* bare in mind when not using a *MySQL persistent template*, if your *POD* restart for any reason your data will be lost;
 
 ### Get an Invoice by Id <a name="execute-step-3">
+
+This is a *REST* endpoint responsible for fetching all invoices available in our system, looking firstly on **Red Hat Data Grid** and if no invoice is found, we're going to hit our database looking for it. In order to use it, just hit a *HTTP GET* on **$openshift-modern-invoice-route/fuse/invoice/${id}**:
+
+  ```
+  http GET modern-invoice-demo.app.myopenshift.com/fuse/invoice/1
+  ```
+  * *TIP 1:* when an invoice is not found on **Red Hat Data Grid** but is available in our *database*, the **Red Hat Fuse Route** will populate our *cache* with this data so the upcoming requests looking for this info, will no longer hit *MySQL*;
+  * *TIP 2:* consider reviewing **Red Hat Fuse Route** logs which will display lots of useful information;
+
 ### Get an Invoice by Id using Hystrix <a name="execute-step-4">
-### Get an Invoice by Customer's name <a name="execute-step-5">
+### Get an Invoice by Customer's Name <a name="execute-step-5">
 
 ## Additional References <a name="additional-references">
