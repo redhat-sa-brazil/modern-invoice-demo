@@ -357,6 +357,14 @@ This is a *REST* endpoint responsible for fetching all invoices available in our
   * *TIP 2:* consider reviewing **Red Hat Fuse Route** logs which will display lots of useful information;
 
 ### Get an Invoice by Id using Hystrix <a name="execute-step-4">
+
+This is a *REST* endpoint responsible for fetching all invoices available in **Red Hat Data Grid ONLY** and if our cache is not available, our **Fuse Route** will fallback and hit the database to fetch the desired data. In order to use it, just hit a *HTTP GET* on **$openshift-modern-invoice-route/fuse/invoice/hystrix/${id}**:
+
+  ```
+  http GET modern-invoice-demo.app.myopenshift.com/fuse/invoice/hystrix/1
+  ```
+  * *TIP :* this example illustrates how easy you can add resilience on **Red Hat Fuse routes** exploring *Hystrix*
+
 ### Get an Invoice by Customer's Name <a name="execute-step-5">
 
 ## Additional References <a name="additional-references">
