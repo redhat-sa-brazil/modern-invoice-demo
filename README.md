@@ -27,7 +27,7 @@ The [Additional References](#additional-references) section will provide complem
 
 0. [Introduction](#execute-step-0)
 1. [Create an Invoice](#execute-step-1)
-2. [List all Invoices on Red Hat Data Grid](#execute-step-2)
+2. [Get all Invoices on Red Hat Data Grid](#execute-step-2)
 3. [Get an Invoice by Id](#execute-step-3)
 4. [Get an Invoice by Id using Hystrix](#execute-step-4)
 5. [Get an Invoice by Customer's name](#execute-step-5)
@@ -327,19 +327,25 @@ The [Additional References](#additional-references) section will provide complem
 
 ### Introduction <a name="execute-step-0">
 
-* This demo demonstrates how to integrate [Red Hat Data Grid](https://www.redhat.com/en/technologies/jboss-middleware/data-grid) and [Red Hat Fuse](https://www.redhat.com/en/technologies/jboss-middleware/fuse) through a simple Credit Card Invoice Offload use case.
-
-* In order to do that, we've created 5 (five) **Red Hat Fuse routes** which leverages this integration. Also there's an *Open API/Swagger* definition available on: **$openshift-modern-invoice-route/fuse/api-doc**.
+* This demo demonstrates how to integrate [Red Hat Data Grid](https://www.redhat.com/en/technologies/jboss-middleware/data-grid) and [Red Hat Fuse](https://www.redhat.com/en/technologies/jboss-middleware/fuse) through a simple Credit Card Invoice Offload use case. In order to do that, we've created 5 (five) **Red Hat Fuse routes** which leverages this integration. Also there's an *Open API/Swagger* definition available on: **$openshift-modern-invoice-route/fuse/api-doc**.
 
 ### Create an Invoice <a name="execute-step-1">
 
-* This is *REST* endpoint responsible for creating Invoice. In order to use it, just hit a *HTTP POST* on **$openshift-modern-invoice-route/fuse/invoice** with a content similar as follows:
+* This is a *REST* endpoint responsible for creating an Invoice. In order to use it, just hit a *HTTP POST* on **$openshift-modern-invoice-route/fuse/invoice** with a content similar as follows:
 
   ```
   http POST modern-invoice-demo.app.myopenshift.com/fuse/invoice customerName=customer1 dueDate="may/2019" total=5500.45
   ```
 
-### List all Invoices on Red Hat Data Grid <a name="execute-step-2">
+### Get all Invoices on Database <a name="execute-step-2">
+
+* This is a *REST* endpoint responsible for fetching all invoices available in our database. In order to use it, just hit a *HTTP GET* on **$openshift-modern-invoice-route/fuse/invoice**:
+
+  ```
+  http GET modern-invoice-demo.app.myopenshift.com/fuse/invoice
+  ```
+  * *TIP :* bare in mind when not using a *MySQL persistent template*, if your *POD* restart for any reason your data will be lost;
+
 ### Get an Invoice by Id <a name="execute-step-3">
 ### Get an Invoice by Id using Hystrix <a name="execute-step-4">
 ### Get an Invoice by Customer's name <a name="execute-step-5">
