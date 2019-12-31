@@ -1,10 +1,10 @@
 # Modern Invoice Demo
 
+## Description
+
 This demo demonstrates how to integrate [Red Hat Data Grid](https://www.redhat.com/en/technologies/jboss-middleware/data-grid) and [Red Hat Fuse](https://www.redhat.com/en/technologies/jboss-middleware/fuse) through a simple Credit Card Invoice Offload use case.
 
-The [Additional References](#additional-references) section will provide complementary assets for further reading alonsgide additional details about related topics.
-
-## Description
+The [Additional References](#additional-references) section will provide complementary assets for further reading alongside additional details about related topics.
 
 ## Environment
 
@@ -24,6 +24,13 @@ The [Additional References](#additional-references) section will provide complem
 6. [Deploy Modern Invoice Demo](#deploy-step-6)
 
 ## Demo Guide
+
+0. [Introduction](#execute-step-0)
+1. [Create an Invoice](#execute-step-1)
+2. [List all Invoices on Red Hat Data Grid](#execute-step-2)
+3. [Get an Invoice by Id](#execute-step-3)
+4. [Get an Invoice by Id using Hystrix](#execute-step-4)
+5. [Get an Invoice by Customer's name](#execute-step-5)
 
 ### Pre-Requisities <a name="deploy-step-0"/>
 
@@ -187,7 +194,7 @@ The [Additional References](#additional-references) section will provide complem
   * [Setup Registry Authentication](https://access.redhat.com/documentation/en-us/red_hat_data_grid/7.3/html-single/red_hat_data_grid_for_openshift/index#os_registry_authentication)
   * [Configure Authentication to the Red Hat Container Registry](https://access.redhat.com/documentation/en-us/red_hat_fuse/7.3/html-single/fuse_on_openshift_guide/index#configure-container-registry)
   * [Minishift Red Hat Registry Login Add-on](https://docs.okd.io/latest/minishift/using/addons.html#default-addons)
-  
+
 ### Install Red Hat Fuse 7.3 on Openshift <a name="deploy-step-1"/>
 
 * Installing **Red Hat Fuse** on **Openshift** is very easy. You just need to access to *Openshift* namespace (if you want to enable it globally) and import Fuse *image streams, quickstarts and templates* just as follows:
@@ -317,5 +324,12 @@ The [Additional References](#additional-references) section will provide complem
   -Djdg-application-password=cache
   ```
   * *TIP :* all attributes should match both *MySQL* and **Red Hat Data Grid** params previously informed;
+
+## Introduction <a name="execute-step-0">
+## Create an Invoice <a name="execute-step-1">
+## List all Invoices on Red Hat Data Grid <a name="execute-step-2">
+## Get an Invoice by Id <a name="execute-step-3">
+## Get an Invoice by Id using Hystrix <a name="execute-step-4">
+## Get an Invoice by Customer's name <a name="execute-step-5">
 
 ## Additional References <a name="additional-references">
