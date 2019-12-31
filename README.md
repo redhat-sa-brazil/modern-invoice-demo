@@ -325,11 +325,23 @@ The [Additional References](#additional-references) section will provide complem
   ```
   * *TIP :* all attributes should match both *MySQL* and **Red Hat Data Grid** params previously informed;
 
-## Introduction <a name="execute-step-0">
-## Create an Invoice <a name="execute-step-1">
-## List all Invoices on Red Hat Data Grid <a name="execute-step-2">
-## Get an Invoice by Id <a name="execute-step-3">
-## Get an Invoice by Id using Hystrix <a name="execute-step-4">
-## Get an Invoice by Customer's name <a name="execute-step-5">
+### Introduction <a name="execute-step-0">
+
+* This demo demonstrates how to integrate [Red Hat Data Grid](https://www.redhat.com/en/technologies/jboss-middleware/data-grid) and [Red Hat Fuse](https://www.redhat.com/en/technologies/jboss-middleware/fuse) through a simple Credit Card Invoice Offload use case.
+
+* In order to do that, we've created 5 (five) **Red Hat Fuse routes** which leverages this integration. Also there's an *Open API/Swagger* definition available on: **$openshift-modern-invoice-route/fuse/api-doc**.
+
+### Create an Invoice <a name="execute-step-1">
+
+* This is *REST* endpoint responsible for creating Invoice. In order to use it, just hit a *HTTP POST* on **$openshift-modern-invoice-route/fuse/invoice** with a content similar as follows:
+
+  ```
+  http POST modern-invoice-demo.app.myopenshift.com/fuse/invoice customerName=customer1 dueDate="may/2019" total=5500.45
+  ```
+
+### List all Invoices on Red Hat Data Grid <a name="execute-step-2">
+### Get an Invoice by Id <a name="execute-step-3">
+### Get an Invoice by Id using Hystrix <a name="execute-step-4">
+### Get an Invoice by Customer's name <a name="execute-step-5">
 
 ## Additional References <a name="additional-references">
