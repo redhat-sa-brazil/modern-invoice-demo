@@ -375,3 +375,5 @@ This is a *REST* endpoint responsible for fetching all invoices available in our
   * *TIP :* unfortunately this **Fuse Route** it not working properly. Please review our open *issues* for additional details;
 
 ## Additional References <a name="additional-references">
+
+- [Offload your database data into an in-memory data grid for fast processing made easy](https://developers.redhat.com/blog/2017/04/03/offload-your-database-data-into-an-in-memory-data-grid-for-fast-processing-made-easy/)
