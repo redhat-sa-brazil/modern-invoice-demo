@@ -187,16 +187,10 @@ The [Additional References](#additional-references) section will provide complem
   * [Setup Registry Authentication](https://access.redhat.com/documentation/en-us/red_hat_data_grid/7.3/html-single/red_hat_data_grid_for_openshift/index#os_registry_authentication)
   * [Configure Authentication to the Red Hat Container Registry](https://access.redhat.com/documentation/en-us/red_hat_fuse/7.3/html-single/fuse_on_openshift_guide/index#configure-container-registry)
   * [Minishift Red Hat Registry Login Add-on](https://docs.okd.io/latest/minishift/using/addons.html#default-addons)
-
-* After configuring your **Openshift Cluster** you're going to login as **cluster:admin**. Example:
-
-  ```
-  oc login -u system:admin
-  ```
-
+  
 ### Install Red Hat Fuse 7.3 on Openshift <a name="deploy-step-1"/>
 
-* Installing **Red Hat Fuse** on **Openshift** is very easy. You just need to access to *Openshift* namespace and import Fuse *image streams, quickstarts and templates* just as follows:
+* Installing **Red Hat Fuse** on **Openshift** is very easy. You just need to access to *Openshift* namespace (if you want to enable it globally) and import Fuse *image streams, quickstarts and templates* just as follows:
 
   * Login as **system:admim:**
 
