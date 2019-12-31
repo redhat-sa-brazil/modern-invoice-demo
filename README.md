@@ -367,4 +367,11 @@ This is a *REST* endpoint responsible for fetching all invoices available in **R
 
 ### Get an Invoice by Customer's Name <a name="execute-step-5">
 
+This is a *REST* endpoint responsible for fetching all invoices available in our system, looking firstly on **Red Hat Data Grid** and if no invoice is found, we're going to hit our database looking for it. In order to use it, just hit a *HTTP GET* on **$openshift-modern-invoice-route/fuse/invoice/${customerName}/customer**:
+
+  ```
+  http GET modern-invoice-demo.app.myopenshift.com/fuse/invoice/johndoe/customer
+  ```
+  * *TIP :* unfortunately this **Fuse Route** it not working properly. Please review our open *issues* for additional details;
+
 ## Additional References <a name="additional-references">
