@@ -372,7 +372,7 @@ This is a *REST* endpoint responsible for fetching all invoices available in our
   ```
   http GET modern-invoice-demo.app.myopenshift.com/fuse/invoice/johndoe/customer
   ```
-  * *TIP :* unfortunately this **Fuse Route** it not working properly. Please review our open *issues* for additional details;
+  * *TIP :* unfortunately this **Fuse Route** it not working properly. Please review this (ISSUE)[https://github.com/redhat-sa-brazil/modern-invoice-demo/issues/1] for additional details;
 
 ## Additional References <a name="additional-references">
 
