@@ -293,7 +293,7 @@ The [Additional References](#additional-references) section will provide complem
   NAME            READY     STATUS    RESTARTS   AGE
   mysql-1-th7kp   1/1       Running   0          1m
   ```
-  * *TIP 1 :* the pod name *mysql-1-th7kp* is going to be different from your;
+  * *TIP 1 :* the pod name *mysql-1-th7kp* is going to be different from yours;
   * *TIP 2 :* make sure your pod has a **Running** status with a **1/1** count;
 
 ### Deploy Red Hat Data Grid <a name="deploy-step-5"/>
